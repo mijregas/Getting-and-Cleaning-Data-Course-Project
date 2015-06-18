@@ -32,10 +32,10 @@ run_analysis <- function() {
     dflabels <- mutate(dflabels, name=gsub("-", "_", name))
     dflabels <- mutate(dflabels, name=gsub(",", "_", name))
     #
-    ## Determine which variables are the "bandsEnergy"
-    bandsEnergy <- filter(dflabels, !str_detect(dflabels$name, "bandsEnergy"))
-    cols_be <- bandsEnergy$num
-    col_labels <- bandsEnergy$name
+    ## Determine which variables are the means and standard deviations
+    mean_std <- filter(dflabels, (str_detect(dflabels$name, "_mean") | str_detect(dflabels$name, "_std")) & !str_detect(dflabels$name, "_meanFreq") )
+    cols_ms <- mean_std$num
+    col_labels <- mean_std$name
     #
     ## Merge the training and the test sets to create one data set.
     message("Reading and processing data files...")
@@ -43,31 +43,9 @@ run_analysis <- function() {
     dftest <- read.table("./data/UCI HAR Dataset/test/X_test.txt")
     df_all <- bind_rows(dftrain,dftest)
     #
-    ## Remove the "bandsEnergy" columns that aren't needed and
-    ## Add the column names
-    df_all <- df_all[,cols_be]
+    ## Remove the columns that aren't needed and the column names
+    df_all <- df_all[,cols_ms]
     colnames(df_all) <- col_labels
-    #
-    ## Remove all the columns that aren't needed - i.e. leave only
-    ## the mean and standard deviation for each measurement
-    df_all <- select(df_all, tBodyAcc_mean_X:tBodyAcc_std_Z, 
-                     tGravityAcc_mean_X:tGravityAcc_std_Z,
-                     tBodyAccJerk_mean_X:tBodyAccJerk_std_Z,
-                     tBodyGyro_mean_X:tBodyGyro_std_Z,
-                     tBodyGyroJerk_mean_X:tBodyGyroJerk_std_Z,
-                     tBodyAccMag_mean:tBodyAccMag_std,
-                     tGravityAccMag_mean:tGravityAccMag_std,
-                     tBodyAccJerkMag_mean:tBodyAccJerkMag_std,
-                     tBodyGyroMag_mean:tBodyGyroMag_std,
-                     tBodyGyroJerkMag_mean:tBodyGyroJerkMag_std,
-                     fBodyAcc_mean_X:fBodyAcc_std_Z,
-                     fBodyAccJerk_mean_X:fBodyAccJerk_std_Z,
-                     fBodyGyro_mean_X:fBodyGyro_std_Z,
-                     fBodyAccMag_mean:fBodyAccMag_std,
-                     fBodyBodyAccJerkMag_mean:fBodyBodyAccJerkMag_std,
-                     fBodyBodyGyroMag_mean:fBodyBodyGyroMag_std,
-                     fBodyBodyGyroJerkMag_mean, fBodyBodyGyroJerkMag_std
-    )
     #
     ## Load and combine the training and test subject IDs
     ## Also load and combine the acticity IDs
@@ -76,7 +54,7 @@ run_analysis <- function() {
     subj_id_test <- read.table("./data/UCI HAR Dataset/test/subject_test.txt")
     act_id_test <- read.table("./data/UCI HAR Dataset/test/y_test.txt")
     subj_id_all <- bind_rows(subj_id_train, subj_id_test)
-    colnames(subj_id_all) <- c("subj_id")
+    colnames(subj_id_all) <- c("subject")
     act_id_all <- bind_rows(act_id_train, act_id_test)
     colnames(act_id_all) <- c("act_id")
     #
@@ -89,6 +67,7 @@ run_analysis <- function() {
     df_tidy_all <- bind_cols(list(subj_id_all, act_id_all, df_all))
     #
     ## Save a copy of this 1st file and clean up the global environment
+    message("Writing 1st output file...")
     write.csv(df_tidy_all, file="./data/df_tidy_all.csv", row.names=FALSE)
     rm(list=ls())
     df_tidy_all <- read.csv(file="./data/df_tidy_all.csv")
@@ -96,10 +75,11 @@ run_analysis <- function() {
     
     ## Create an independent tidy data set with the average of each variable 
     ## for each activity and each subject.
-    df_tidy_grouped <- group_by(df_tidy_all, subj_id, act_id, activity)
+    df_tidy_grouped <- group_by(df_tidy_all, subject, activity)
     df_tidy_summary <- summarise_each(df_tidy_grouped, funs(mean), tBodyAcc_mean_X:fBodyBodyGyroJerkMag_std)
     #
     ## Save a copy of this 2nd file as a csv file and also as a plain text file
+    message("Writing 2nd output file...")
     write.csv(df_tidy_summary, file="./data/df_tidy_summary.csv", row.names=FALSE)
     write.table(df_tidy_summary, file="./data/df_tidy_summary.txt", row.names=FALSE)
     rm(df_tidy_grouped)
