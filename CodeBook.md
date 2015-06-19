@@ -6,7 +6,7 @@ A description of the original study design and the data collected can be found a
 http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones 
 
 Also, the original zip file data download contains the file features_info.txt that provides the following which I have excerpted. 
-<pre>
+<span style="font-family: 'Lucida Console', Monaco, monospace; font-size: 11pt"">
 Feature Selection 
 =================
 
@@ -42,14 +42,15 @@ The set of variables that were estimated from these signals are:
   _mean: Mean value
   _std: Standard deviation
 
-Additional vectors obtained by averaging the signals in a signal window sample. These are used on the angle() variable:
+Additional vectors obtained by averaging the signals in a signal window sample.
+These are used on the angle() variable:
 
 gravityMean
 tBodyAccMean
 tBodyAccJerkMean
 tBodyGyroMean
 tBodyGyroJerkMean
-</pre>
+</span>
 
 <h2>Code Book</h2>
 
