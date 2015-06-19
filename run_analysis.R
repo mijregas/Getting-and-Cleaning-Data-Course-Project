@@ -48,7 +48,7 @@ run_analysis <- function() {
     colnames(df_all) <- col_labels
     #
     ## Load and combine the training and test subject IDs
-    ## Also load and combine the acticity IDs
+    ## Also load and combine the activity IDs
     subj_id_train <- read.table("./data/UCI HAR Dataset/train/subject_train.txt")
     act_id_train <- read.table("./data/UCI HAR Dataset/train/y_train.txt")
     subj_id_test <- read.table("./data/UCI HAR Dataset/test/subject_test.txt")
@@ -72,17 +72,14 @@ run_analysis <- function() {
     rm(list=ls())
     df_tidy_all <- read.csv(file="./data/df_tidy_all.csv")
     #
-    
     ## Create an independent tidy data set with the average of each variable 
     ## for each activity and each subject.
-    df_tidy_grouped <- group_by(df_tidy_all, subject, activity)
-    df_tidy_summary <- summarise_each(df_tidy_grouped, funs(mean), tBodyAcc_mean_X:fBodyBodyGyroJerkMag_std)
+    df_tidy_summary <- summarise_each(group_by(df_tidy_all, subject, activity), funs(mean), tBodyAcc_mean_X:fBodyBodyGyroJerkMag_std)
     #
     ## Save a copy of this 2nd file as a csv file and also as a plain text file
     message("Writing 2nd output file...")
     write.csv(df_tidy_summary, file="./data/df_tidy_summary.csv", row.names=FALSE)
     write.table(df_tidy_summary, file="./data/df_tidy_summary.txt", row.names=FALSE)
-    rm(df_tidy_grouped)
     #
     message("Done...")
     df_tidy_summary
