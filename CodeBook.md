@@ -66,7 +66,7 @@ tBodyGyroJerkMean
 
 <h2>Code Book</h2>
 
-The following list describes the data types (columns) in the data frame returned by the function run_analysis(). Each numeric row in the data frame is a summation of all the observations for the associated subject and activity. All numeric values 
+The following list describes the data types (columns) in the data frame returned by the function run_analysis(). Each numeric row in the data frame is a summation of all the observations for the associated subject and activity. All numeric variables have values between negative one (-1.0) a positive one (+1.0). 
 <pre>
 Variable                  Data Type
 ========================= ===============
