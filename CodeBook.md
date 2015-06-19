@@ -1,6 +1,6 @@
 # CodeBook for the Getting-and-Cleaning-Data-Course-Project
 
-The data for the project was downloaded as a Zip file from:
+The data for the project was downloaded as a Zip file from:<br>
   https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
   
 Once unzipped into the "./data" directory, the data consists of 28 files in 4 folders. For purposes of this assignments, the raw data contained in the Inertial Signals directories was ignored. The remaining files of interest were contained in a directory structure as depicted below under the "root" directory "UCI HAR Dataset".
@@ -54,7 +54,7 @@ The files y_test.txt and y_train.txt again are vectors containing the activity i
 In total, there were (8*6 + 9*2) = 66 data columns selected from the "X" files. In addition, the respective subject numbers, activity identifiers, and activity names were added to an intermediate file of dimensions [10299 x 69]. 
 	
 The intermediate file was grouped by subject and activity then summarized within groups by averaging the signal data within each group. When displayed, the output of the run_analysis() function is as follows:
-
+<pre>
 Source: local data frame [180 x 68]
 Groups: subject
 
@@ -91,3 +91,4 @@ Variables not shown: tBodyAcc_std_Y (dbl), tBodyAcc_std_Z (dbl), tGravityAcc_mea
   fBodyAccMag_mean (dbl), fBodyAccMag_std (dbl), fBodyBodyAccJerkMag_mean (dbl),
   fBodyBodyAccJerkMag_std (dbl), fBodyBodyGyroMag_mean (dbl), fBodyBodyGyroMag_std (dbl),
   fBodyBodyGyroJerkMag_mean (dbl),fBodyBodyGyroJerkMag_std (dbl)
+</pre>
