@@ -4,7 +4,7 @@ The data for the project was downloaded as a Zip file from:<br>
   https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
   
 Once unzipped into the "./data" directory, the data consists of 28 files in 4 folders. For purposes of this assignments, the raw data contained in the Inertial Signals directories was ignored. The remaining files of interest were contained in a directory structure as depicted below under the "root" directory "UCI HAR Dataset".
-
+<pre>
 UCI HAR Dataset
 +-- Test
     +-- Inertial Signals
@@ -20,11 +20,11 @@ UCI HAR Dataset
 	features.txt
 	features_info.txt
 	README.txt
-
+</pre>
 The files X_test.txt (2947 lines/rows) and X_train.txt (7352 lines/rows) contain the raw accelerometer and gyroscope 3-axial signals and the other "features" recorded for the experiment. Each observation or row in these two data files contains 561 individual data values. 
 
 The file features.txt contains a complete listing of the variable names for each of the 561 data points in each row of the X_test.txt and X_train.txt data files. For this exercise or project, I was only concerned with extracting the variables recording mean and standard deviations for the following variables or "signals" described in features_info.txt:
-
+<pre>
 tBodyAcc-XYZ
 tGravityAcc-XYZ
 tBodyAccJerk-XYZ
@@ -42,7 +42,7 @@ fBodyAccMag
 fBodyAccJerkMag
 fBodyGyroMag
 fBodyGyroJerkMag	
-
+</pre>
 '-XYZ' in the variable names above denotes 3-axial signals in the X, Y and Z directions. 
 
 One strategy in working with these files was to create a vector of column headings from the variable names in features.txt. Unfortunately, this wasn't as easy as I'd hoped. First, the name strings in the file contained problematic characters -- in particular, dashes (minus signs), commas, and parentheses. These were removed, but, even worse, there were duplicate variable names -- for example "fBodyAcc-bandsEnergy()-1,8" appears 3 times (lines 303, 317, and 331). These "bandsEnergy" duplicate name issues made it necessary to remove unwanted columns before using a vector subset of the variable names as column headings.
