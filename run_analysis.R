@@ -43,7 +43,7 @@ run_analysis <- function() {
     dftest <- read.table("./data/UCI HAR Dataset/test/X_test.txt")
     df_all <- bind_rows(dftrain,dftest)
     #
-    ## Remove the columns that aren't needed and the column names
+    ## Remove the columns that aren't needed and add the column names
     df_all <- df_all[,cols_ms]
     colnames(df_all) <- col_labels
     #
