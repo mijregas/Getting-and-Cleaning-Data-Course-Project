@@ -44,6 +44,8 @@ fBodyGyroMag
 fBodyGyroJerkMag	
 
 '-XYZ' in the variable names above denotes 3-axial signals in the X, Y and Z directions. 
+
+One strategy in working with these files was to create a vector of column headings from the variable names in features.txt. Unfortunately, this wasn't as easy as I'd hoped. First, the name strings in the file contained problematic characters -- in particular, dashes (minus signs), commas, and parentheses. These were removed, but, even worse, there were duplicate variable names -- for example "fBodyAcc-bandsEnergy()-1,8" appears 3 times (lines 303, 317, and 331). These "bandsEnergy" duplicate name issues made it necessary to remove unwanted columns before using a vector subset of the variable names as column headings.
 	
 The files subject_test.txt and subject_train.txt are effectively vectors of the subject numbers associated with the observations in the "X_test.txt" (2947 observations) and the X_train.txt (7352 observations) files.
 
